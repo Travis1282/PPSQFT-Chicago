@@ -1,0 +1,35 @@
+
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: rgb(14, 21, 30);
+    height: 100%;
+    font-family: Verdana, Geneva, Lucida, Arial, Helvetica,Lucida Console, Monaco, monospace;
+    font-size: 100%;
+  
+}
+#map {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #333;
+    z-index: 1
+}
+
+#handle{
+    width: 20px;
+    height: 20px;
+    position: relative;
+    background-color: #FFF;
+    z-index: 2;
+}
+#rangeslide{
+    width: 100vh
+    height: 20px;
+    background-color: #fff;
+
+}
+#progress {
+
+}
