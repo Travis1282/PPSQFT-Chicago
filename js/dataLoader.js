@@ -1,4 +1,4 @@
-
+let ctx =''
 
 //////////////////// VIEW IN CHICAGO //////////////////
 const leafletMap = L.map('map').setView([41.8781, -87.6298], 11);
@@ -9,31 +9,37 @@ L.tileLayer("https://{s}.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png?acce
 
 //////////////////  PUT DATA ON MAP //////////////////
 
-myCustomCanvasDraw = function(){
-        this.onLayerDidMount = function (){    
+
+var Plotter = function() {
+
+        this.getter = function(date) {  
           const that = this;  
           this.data = [];
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                  console.log('onreadystatechange')
 
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                    const data = JSON.parse(xhr.responseText)
-                        console.log('if readyState')
                         that.setData(data)
+
                 }
             }
-          xhr.open('GET', 'http://localhost:9292/properties/2016-01', true);
+          xhr.open('GET', 'http://localhost:9292/properties/'+date, true);
           xhr.send(null); 
+
+        }
+        // getter();
+        this.onLayerDidMount = function (){ 
+            this.getter()
         };    
         this.onLayerWillUnmount  = function(map){
            // -- custom cleanup    
-           console.log(map, ' is this called ')
+           // console.log(map, ' is this called ')
         };    
         this.onDrawLayer = function (viewInfo){
 
-          const ctx = viewInfo.canvas.getContext('2d');
-          console.log(viewInfo.canvas.width, viewInfo.canvas.height, ctx)
+          ctx = viewInfo.canvas.getContext('2d');
+          // console.log(viewInfo.canvas.width, viewInfo.canvas.height, ctx)
           ctx.clearRect(0, 0, viewInfo.canvas.width, viewInfo.canvas.height); 
           const that = this
             for (let i = 0; i < this.data.length; i++) {
@@ -47,6 +53,7 @@ myCustomCanvasDraw = function(){
                       ctx.fillStyle = 'hsla('+d[2]+', 100%, 50%, 0.5)';
                       ctx.fill();
                       ctx.closePath();
+
                   } // if in bounds 
                 }//for loop
 
@@ -59,10 +66,9 @@ myCustomCanvasDraw = function(){
 }//myCustomCanvisDraw
 
 
-myCustomCanvasDraw.prototype = new L.CanvasLayer(); // -- setup prototype 
+Plotter.prototype = new L.CanvasLayer(); // -- setup prototype 
 
-var myLayer = new myCustomCanvasDraw();
+const myLayer = new Plotter();
 myLayer.addTo(leafletMap);
-
 
 
