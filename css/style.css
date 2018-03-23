@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
 html, body {
     height: 100%;
@@ -20,16 +21,52 @@ html, body {
 #handle{
     width: 20px;
     height: 20px;
-    position: relative;
+    position: absolute;
     background-color: #FFF;
     z-index: 2;
+    cursor: move;
+    bottom: 0;
 }
-#rangeslide{
-    width: 100vh
+/*#rangeslide{
+    width: 100vw;
     height: 20px;
-    background-color: #fff;
-
-}
+    height:20px;
+    background-color: rgba(128, 128, 128, 0.5);
+    z-index:2;
+    bottom:0px;
+    position: relative;
+}*/
 #progress {
 
 }
+
+#datePrint {
+    font-family: 'Fjalla One', sans-serif;
+    padding: 30px;
+    /* transform: translate(40px, -30px); */
+    font-size: 50px;
+    color: white;
+    z-index: 2;
+    position: relative;
+    text-transform: uppercase;
+    transform: translate(100px, -60px);
+    width: fit-content;
+}
+
+
+/*#fullWidthBar{
+    width: 100vw;
+    height:20px;
+    background-color: rgba(128, 128, 128, 0.5);
+    z-index:2;
+    bottom:0px;
+    position: relative;
+
+
+}*/
+
+
+
+
+
+

@@ -1,13 +1,3 @@
-////////////////// GLOBAL //////////////////
- let  dates = [],
-      segmentWidth = '', 
-      dateLocation = '',
-      incriment = 0, 
-      nowOnDate = dates[0];
-;
-
-
-
 
 //////////////// MAINTAIN THE BROWSER WIDTH AND HEIGHT VARIBLES ON RESIZE ////////////////
 
@@ -17,97 +7,120 @@ window.onresize = (event) => {
 };
 
 
-//////////////////// GET ALL THE UNIQUE DATES ////////////////////
-
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-
-          if (xhr.readyState == XMLHttpRequest.DONE) {
-              dates = JSON.parse(xhr.responseText)
-                  segmentWidth = (window.innerWidth)/dates.length;//Math.round();
-                  console.log(segmentWidth)
-
-          }
-      }
-
-    xhr.open('GET', 'http://localhost:9292/dates', true);
-    xhr.send(null); 
 
 
 //////////////// DOM MANIPULATION ////////////////
 
 
-
 let handle = document.getElementById('handle');   // create main window container
-    handle.style.backgroundColor = '#0bc';
-
-    handle.addEventListener('click', function() {
-      // console.log('handle!!')
-});
-
-//////////////// LOOP ALL DATES ////////////////
-// for (var i = dates.length - 1; i >= 0; i--) {
-//   dates[i]
-// }
 
 
-//////////////// ANIMATE HANDLE ////////////////
+//////////////// DRAG HANDLE ////////////////
 
-console.log(myLayer)
+dragElement(document.getElementById(("handle")));
+
+function dragElement(elmnt) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+
+    animate = false
+    playPause.checked = true;
+
+    e = e || window.event;
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    // pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    pos1 = pos3 - e.clientX;
+    pos3 = e.clientX;
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+
+    Math.round(pos3/segmentWidth)
+    incriment = Math.round(pos3/segmentWidth)
+    nowOnDate = dates[incriment]
+    datePrint.innerText = nowOnDate.slice(0,-9) 
+
+    myLayer.thisMonth(nowOnDate);
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    // animate = true;
+
+    // draw();
+  }
+}
+
+//////////////// ANIMATE + DRAW ////////////////
+
 function draw() {
-    speed = 500; 
+    speed = 50; 
     setTimeout(function() {
-      requestAnimationFrame(draw);
-      incriment++
-      handle.style.transform = 'translateX('+segmentWidth * incriment+'px)';
-      dateLocation = handle.getBoundingClientRect().right
-      
-      console.log(dates[incriment+15]);
-      console.log(dates[incriment])
-      nowOnDate = dates[incriment].slice(0,-9) 
-      // let patched = ctx.fillStyle.split(' ');
-      // let splicedHsla = patched.splice(3, 1, "12321)")
-      // console.log(nowOnDate, "animation")
-
-      // console.log(dateLocation, "right", segmentWidth, 'segmentWidth', nowOnDate, 'nowOnDate')
-      // plotter(nowOnDate)/
-      // console.log(myLayer)
-      myLayer.getter(nowOnDate);
+      if (animate == true){ requestAnimationFrame(draw);
+        incriment++
+        dateLocation = handle.getBoundingClientRect().right}
+      if (dateLocation <= window.innerWidth){
+        handle.style.transform = 'translateX('+segmentWidth * incriment+'px)';
+        nowOnDate = dates[incriment]//.slice(0,-9) 
+        datePrint.innerText = nowOnDate.slice(0,-9) 
+        }
+      myLayer.thisMonth(nowOnDate);
 
   }, speed )
 }
  
-draw();
-
-    // console.log(ctxfill)
-    // ctx.fillStyle = 'hsla('+d[2]+', 100%, 50%, 0.5)';
-
-// document.body.appendChild(handle);
-// handle.style.color = '#0bc';
-// handle.style.width = '100vw';
-// handle.style.height = '10px';
-// handle.zIndex = 99;
-// handle.style.position = 'fixed';
-// handle.style.overflow = 'visible';
-// handle.style.left = '0';
-// handle.style.bottom = '0';
 
 
+//////////////// DATE TRACKER ////////////////
 
 
-// const terminal = document.createElement('div'); // create terminal window where the text lives
-// terminalWindow.appendChild(terminal);
-// terminal.style.fontFamily = "'Courier New', Courier, monospace";
-// terminal.style.color = 'white';
-// terminal.style.zIndex = '1'
-// terminal.style.position = 'relative';
+let datePrint = document.createElement('div');   
+document.body.appendChild(datePrint);
+datePrint.id = 'datePrint'
+datePrint.innerText = "Loading...";
 
-// let blinker = document.createElement('div'); /// create the blinker for the text input area
-// terminalWindow.appendChild(blinker);
-// blinker.style.backgroundColor = '#0f0';
-// blinker.style.width = '10px';
-// blinker.style.height = '20px';
-// blinker.style.marginTop = '-20px';
-// blinker.style.position = 'relative';
+
+//////////////// PROGRESS BAR ////////////////
+
+let fullWidthBar = document.createElement('div');   
+document.body.appendChild(fullWidthBar);
+fullWidthBar.id = 'fullWidthBar';
+
+
+//////////////// PLAY/PAUSE BUTTON ////////////////
+
+let playPause = document.querySelector("input[name=check]");
+playPause.checked = true;
+playPause.addEventListener( 'change', function() {
+    if(this.checked) {  
+        animate = false;
+
+
+    } else {
+      animate = true  
+      draw()
+
+    }
+});
+
+
+
+
 
     
+

@@ -1,7 +1,15 @@
-let ctx =''
+////////////////// GLOBAL //////////////////
+ let  dates = [],
+      segmentWidth = '', 
+      dateLocation = '',
+      incriment = 0, 
+      nowOnDate = dates[0],
+      animate = true;
+
+
 
 //////////////////// VIEW IN CHICAGO //////////////////
-const leafletMap = L.map('map').setView([41.8781, -87.6298], 11);
+const leafletMap = L.map('map').setView([41.8781, -87.6498], 12);
 // -- pls change your key to keep this working for others.
 L.tileLayer("https://{s}.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoiZ2xlYWZsZXQiLCJhIjoiY2lxdWxoODl0MDA0M2h4bTNlZ2I1Z3gycyJ9.vrEWCC2nwsGfAYKZ7c4HZA")
     .addTo(leafletMap);
@@ -11,64 +19,126 @@ L.tileLayer("https://{s}.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png?acce
 
 
 var Plotter = function() {
+  (this.getDates = function(){
+    ///////Loads local json file ///////////
+        // const xhr = new XMLHttpRequest();
+        //     xhr.overrideMimeType("application/json");
+        // xhr.onreadystatechange = function () {
+        //       if (xobj.readyState == 4 && xobj.status == "200") {
+        //                dates = xhr.responseText
+        //                console.log(dates)
+        //                console.log('dates')
+        //                segmentWidth = (window.innerWidth)/dates.length;//Math.round();
+        //       }
+        // };
+        // xhr.open('GET', '../heatmap.json', true); // local vesrion of data
+        // xobj.send(null);  
+     
 
-        this.getter = function(date) {  
-          const that = this;  
-          this.data = [];
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
+    /////////Calls api returns as json ///////////
 
-                if (xhr.readyState == XMLHttpRequest.DONE) {
-                   const data = JSON.parse(xhr.responseText)
-                        that.setData(data)
+              const xhr = new XMLHttpRequest();
+              xhr.onreadystatechange = function() {
 
+                  if (xhr.readyState == XMLHttpRequest.DONE) {
+                      dates = JSON.parse(xhr.responseText)
+                      segmentWidth = (window.innerWidth)/dates.length;//Math.round();
+                  }
+              }
+
+            xhr.open('GET', 'http://localhost:9292/dates', true);
+            xhr.send(null); 
+        }());
+
+        this.thisMonth = function() {  
+        const that = this;  
+        this.data = []
+        // console.log('getting this far')
+            // let o = 0;
+            // middle = false
+              onThisDate = allData[incriment]
+               // console.log(onThisDate)
+
+            for (let i = incriment - 15; i < incriment + 15; i++) {
+                  // if (o > 0.9){middle = true}
+                  // if (o < 1 && middle === false){ o = o + 0.059 } else { o = o - 0.059}
+               const filtered = allData.filter(property => property.datesold == dates[i]);
+                if (filtered.length != 0){
+                  for (let j = 0; j < filtered.length; j++){
+                    // filtered[j].datesold = Math.round( o * 100 ) / 100;
+                    this.data.push(filtered[j])
+                    // console.log(filtered[j].datesold)
+                  }
                 }
             }
-          xhr.open('GET', 'http://localhost:9292/properties/'+date, true);
-          xhr.send(null); 
-
+          this.setData(this.data)
         }
-        // getter();
         this.onLayerDidMount = function (){ 
-            this.getter()
-        };    
-        this.onLayerWillUnmount  = function(map){
-           // -- custom cleanup    
-           // console.log(map, ' is this called ')
-        };    
-        this.onDrawLayer = function (viewInfo){
+            const that = this;  
+            this.allData = [];
+            // this.dataByDay = []
+              const xhr = new XMLHttpRequest();
+              xhr.onreadystatechange = function() {
 
-          ctx = viewInfo.canvas.getContext('2d');
-          // console.log(viewInfo.canvas.width, viewInfo.canvas.height, ctx)
+                  if (xhr.readyState == XMLHttpRequest.DONE) {
+                      
+                      allData = JSON.parse(xhr.responseText)
+                      // data.push(JSON.parse(xhr.responseText))
+                      that.thisMonth(allData)
+                      window.draw();
+                      playPause.checked = false;
+
+                  }
+              }
+            xhr.open('GET', 'http://localhost:9292/properties/');
+            xhr.send(null); 
+          };    
+
+        this.onDrawLayer = function (viewInfo){
+          scale = (-viewInfo.zoom * -7) -70
+         let ctx = viewInfo.canvas.getContext('2d');
           ctx.clearRect(0, 0, viewInfo.canvas.width, viewInfo.canvas.height); 
           const that = this
             for (let i = 0; i < this.data.length; i++) {
-                // console.log(data)
-                  let d = [parseFloat(this.data[i].lat), parseFloat(this.data[i].long), parseFloat(this.data[i].ppsqft, parseFloat(this.data[i].datesold))]
-                    // console.log(d)
+                  let d = [parseFloat(this.data[i].lat), parseFloat(this.data[i].long), parseFloat(this.data[i].ppsqft), parseFloat(this.data[i].datesold)]
                   if (viewInfo.bounds.contains([d[0], d[1]])) {
                       dot = viewInfo.layer._map.latLngToContainerPoint([d[0], d[1]], false);
+                      // ctx.filter = 'blur(2px)'
+                      // console.log(d[3])
                       ctx.beginPath();
-                      ctx.arc(dot.x, dot.y, 3, 0, Math.PI * 2);
-                      ctx.fillStyle = 'hsla('+d[2]+', 100%, 50%, 0.5)';
+                      ctx.arc(dot.x, dot.y, scale, 0, Math.PI * 2);
+                      ctx.fillStyle = 'hsla('+(d[2]*.4)+', 100%, 50%, 0.5 )';
                       ctx.fill();
                       ctx.closePath();
 
                   } // if in bounds 
                 }//for loop
+             }//onDrawLayer 
 
           this.setData = function (data){
+
             this.data = data;
             this.drawLayer()
              // -- call to drawLayer
             };
-        }//onDrawLayer
-}//myCustomCanvisDraw
 
+
+} 
 
 Plotter.prototype = new L.CanvasLayer(); // -- setup prototype 
 
 const myLayer = new Plotter();
 myLayer.addTo(leafletMap);
+
+leafletMap.on('movestart', function (e) { 
+  if (animate == true){
+    playPause.checked = true;
+    animate = false; 
+    leafletMap.on('moveend', function (e) { 
+      playPause.checked = false;
+      animate = true, draw();});
+  }
+});
+
 
 
