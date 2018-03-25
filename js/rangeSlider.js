@@ -7,17 +7,12 @@ window.onresize = (event) => {
 };
 
 
-
-
-//////////////// DOM MANIPULATION ////////////////
-
+//////////////// CREATE DRAGGABLE BOX ////////////////
 
 let handle = document.getElementById('handle');   // create main window container
-
+dragElement(document.getElementById(("handle")));
 
 //////////////// DRAG HANDLE ////////////////
-
-dragElement(document.getElementById(("handle")));
 
 function dragElement(elmnt) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -62,7 +57,7 @@ function dragElement(elmnt) {
     document.onmousemove = null;
     // animate = true;
 
-    // draw();
+    draw();
   }
 }
 
@@ -109,8 +104,6 @@ playPause.checked = true;
 playPause.addEventListener( 'change', function() {
     if(this.checked) {  
         animate = false;
-
-
     } else {
       animate = true  
       draw()

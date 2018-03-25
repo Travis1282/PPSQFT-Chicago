@@ -20,33 +20,23 @@ L.tileLayer("https://{s}.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png?acce
 
 var Plotter = function() {
   (this.getDates = function(){
-    ///////Loads local json file ///////////
-        // const xhr = new XMLHttpRequest();
-        //     xhr.overrideMimeType("application/json");
-        // xhr.onreadystatechange = function () {
-        //       if (xobj.readyState == 4 && xobj.status == "200") {
-        //                dates = xhr.responseText
-        //                console.log(dates)
-        //                console.log('dates')
-        //                segmentWidth = (window.innerWidth)/dates.length;//Math.round();
-        //       }
-        // };
-        // xhr.open('GET', '../heatmap.json', true); // local vesrion of data
-        // xobj.send(null);  
-     
-
-    /////////Calls api returns as json ///////////
+    /////Calls api returns as json ///////////
 
               const xhr = new XMLHttpRequest();
               xhr.onreadystatechange = function() {
 
                   if (xhr.readyState == XMLHttpRequest.DONE) {
+                    console.log(xhr.responseText)
                       dates = JSON.parse(xhr.responseText)
                       segmentWidth = (window.innerWidth)/dates.length;//Math.round();
+                      console.log(xhr.responseText)
+                     console.log(dates)
+
+
                   }
               }
-
-            xhr.open('GET', 'http://localhost:9292/dates', true);
+                xhr.open('GET', '../data/dates.json', true); // local vesrion of data
+            // xhr.open('GET', 'http://localhost:9292/dates', true); // apicall version 
             xhr.send(null); 
         }());
 
@@ -87,10 +77,12 @@ var Plotter = function() {
                       that.thisMonth(allData)
                       window.draw();
                       playPause.checked = false;
+                      console.log(console.log(xhr.responseText))
 
                   }
               }
-            xhr.open('GET', 'http://localhost:9292/properties/');
+            xhr.open('GET', '../data/heatmap.json', true); // local vesrion of data
+            // xhr.open('GET', 'http://localhost:9292/properties/'); // api version of the data
             xhr.send(null); 
           };    
 
@@ -121,8 +113,6 @@ var Plotter = function() {
             this.drawLayer()
              // -- call to drawLayer
             };
-
-
 } 
 
 Plotter.prototype = new L.CanvasLayer(); // -- setup prototype 
