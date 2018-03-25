@@ -35,7 +35,7 @@ var Plotter = function() {
 
                   }
               }
-                xhr.open('GET', '../data/dates.js', true); // local vesrion of data
+                xhr.open('GET', '../data/dates.txt', true); // local vesrion of data
             // xhr.open('GET', 'http://localhost:9292/dates', true); // apicall version 
             xhr.send(null); 
         }());
@@ -81,7 +81,7 @@ var Plotter = function() {
 
                   }
               }
-            xhr.open('GET', '../data/heatmap.js', true); // local vesrion of data
+            xhr.open('GET', '../data/heatmap.txt', true); // local vesrion of data
             // xhr.open('GET', 'http://localhost:9292/properties/'); // api version of the data
             xhr.send(null); 
           };    
