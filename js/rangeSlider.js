@@ -2,15 +2,12 @@
 //////////////// MAINTAIN THE BROWSER WIDTH AND HEIGHT VARIBLES ON RESIZE ////////////////
 
 window.onresize = (event) => {
-      segmentWidth = (window.innerWidth)/dates.length;
-      console.log(segmentWidth)
+      segmentWidth = (Math.round(window.innerWidth/dates.length))
+      console.log(segmentWidth, "segmentWidth", innerWidth, "innerWidth", dates.length, "dates.length")
 };
 
 
-//////////////// CREATE DRAGGABLE BOX ////////////////
 
-let handle = document.getElementById('handle');   // create main window container
-dragElement(document.getElementById(("handle")));
 
 //////////////// DRAG HANDLE ////////////////
 
@@ -32,20 +29,34 @@ function dragElement(elmnt) {
     e = e || window.event;
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
-    // pos4 = e.clientY;
     document.onmouseup = closeDragElement;
     document.onmousemove = elementDrag;
   }
 
   function elementDrag(e) {
     e = e || window.event;
-    pos1 = pos3 - e.clientX;
-    pos3 = e.clientX;
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    let newMouseX = e.clientX,
+        handleLeft = e.clientX,
+        rightLimit = window.innerWidth;
+    
+    if (handleLeft < 0) handleLeft = 0;
+    if (handleLeft > rightLimit) handleLeft = rightLimit;
 
+    handle.style.left = (segmentWidth * incriment) - 21 +'px';
+    incriment = Math.round(handleLeft/segmentWidth)
+    console.log(handleLeft)
 
-    Math.round(pos3/segmentWidth)
-    incriment = Math.round(pos3/segmentWidth)
+    // pos1 = pos3 - e.clientX;
+    // pos3 = e.clientX;
+    // // elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    // dateLocation = handle.getBoundingClientRect().right
+    // if (incriment < dates.length){
+    //   incriment = Math.round(pos3/segmentWidth)
+    //   handle.style.left = segmentWidth * incriment+'px';
+    // }
+
+    //         console.log(incriment, dates.length)
+    // incriment = Math.round(pos3/segmentWidth)
     nowOnDate = dates[incriment]
     datePrint.innerText = nowOnDate.slice(0,-9) 
 
@@ -66,14 +77,14 @@ function dragElement(elmnt) {
 function draw() {
     speed = 50; 
     setTimeout(function() {
-      if (animate == true){ requestAnimationFrame(draw);
+      if (animate == true) requestAnimationFrame(draw);
         incriment++
-        dateLocation = handle.getBoundingClientRect().right}
+        dateLocation = handle.getBoundingClientRect().right
       if (dateLocation <= window.innerWidth){
-        handle.style.transform = 'translateX('+segmentWidth * incriment+'px)';
-        nowOnDate = dates[incriment]//.slice(0,-9) 
-        // console.log('dont forget to uncomment this')
+        handle.style.left = segmentWidth * incriment+'px';
+        nowOnDate = dates[incriment]
         datePrint.innerText = nowOnDate.slice(0,-9) 
+
         }
       myLayer.thisMonth(nowOnDate);
 
@@ -112,9 +123,11 @@ playPause.addEventListener( 'change', function() {
     }
 });
 
+//////////////// CREATE DRAGGABLE BOX ////////////////
 
-
-
+let handle = document.getElementById('handle');   
+dragElement(document.getElementById(("handle")));
+segmentWidth = window.innerWidth/dates.length;
 
     
 

@@ -3,6 +3,7 @@
   z-index: 2;
   left: 70px;
   top: 22px;
+  width: fit-content;
 }
 .playpause label {
   display: block;

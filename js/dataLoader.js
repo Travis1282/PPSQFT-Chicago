@@ -1,6 +1,6 @@
 ////////////////// GLOBAL //////////////////
- let  dates = [],
-      segmentWidth = '', 
+ // let  dates = [],
+let   segmentWidth = '', 
       dateLocation = '',
       incriment = 0, 
       nowOnDate = dates[0],
@@ -19,26 +19,26 @@ L.tileLayer("https://{s}.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png?acce
 
 
 var Plotter = function() {
-  (this.getDates = function(){
-    /////Calls api returns as json ///////////
+  // (this.getDates = function(){
+  //   /////Calls api returns as json ///////////
 
-              const xhr = new XMLHttpRequest();
-              xhr.onreadystatechange = function() {
+  //             const xhr = new XMLHttpRequest();
+  //             xhr.onreadystatechange = function() {
 
-                  if (xhr.readyState == XMLHttpRequest.DONE) {
-                    console.log(xhr.responseText)
-                      dates = JSON.parse(xhr.responseText)
-                      segmentWidth = (window.innerWidth)/dates.length;//Math.round();
-                      console.log(xhr.responseText)
-                     console.log(dates)
+  //                 if (xhr.readyState == XMLHttpRequest.DONE) {
+  //                   console.log(xhr.responseText)
+  //                     dates = JSON.parse(xhr.responseText)
+  //                     segmentWidth = (window.innerWidth)/dates.length;//Math.round();
+  //                     console.log(xhr.responseText)
+  //                    console.log(dates)
 
 
-                  }
-              }
-                xhr.open('GET', '../data/dates.html', true); // Amazon hosted version
-            // xhr.open('GET', 'http://localhost:9292/dates', true); // apicall version 
-            xhr.send(null); 
-        }());
+  //                 }
+  //             }
+  //               xhr.open('GET', '../data/dates.html', true); // Amazon hosted version
+  //           // xhr.open('GET', 'http://localhost:9292/dates', true); // apicall version 
+  //           xhr.send(null); 
+  //       }());
 
         this.thisMonth = function() {  
         const that = this;  
@@ -65,25 +65,28 @@ var Plotter = function() {
         }
         this.onLayerDidMount = function (){ 
             const that = this;  
-            this.allData = [];
-            // this.dataByDay = []
-              const xhr = new XMLHttpRequest();
-              xhr.onreadystatechange = function() {
+            // this.allData = [];
+            // // this.dataByDay = []
+            //   const xhr = new XMLHttpRequest();
+            //   xhr.onreadystatechange = function() {
 
-                  if (xhr.readyState == XMLHttpRequest.DONE) {
+            //       if (xhr.readyState == XMLHttpRequest.DONE) {
                       
-                      allData = JSON.parse(xhr.responseText)
+                      // allData = JSON.parse(xhr.responseText)
                       // data.push(JSON.parse(xhr.responseText))
                       that.thisMonth(allData)
                       window.draw();
                       playPause.checked = false;
-                      console.log(console.log(xhr.responseText))
+                      segmentWidth = window.innerWidth/dates.length;
 
-                  }
-              }
-            xhr.open('GET', '../data/heatmap.html', true);  // Amazon hosted version
+
+                      // console.log(console.log(xhr.responseText))
+
+              //     }
+              // }
+            // xhr.open('GET', '../data/heatmap.html', true);  // Amazon hosted version
             // xhr.open('GET', 'http://localhost:9292/properties/'); // api version of the data
-            xhr.send(null); 
+            // xhr.send(null); 
           };    
 
         this.onDrawLayer = function (viewInfo){
