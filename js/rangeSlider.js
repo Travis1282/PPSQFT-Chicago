@@ -72,6 +72,7 @@ function draw() {
       if (dateLocation <= window.innerWidth){
         handle.style.transform = 'translateX('+segmentWidth * incriment+'px)';
         nowOnDate = dates[incriment]//.slice(0,-9) 
+        // console.log('dont forget to uncomment this')
         datePrint.innerText = nowOnDate.slice(0,-9) 
         }
       myLayer.thisMonth(nowOnDate);

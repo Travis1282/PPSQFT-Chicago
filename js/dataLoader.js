@@ -35,7 +35,7 @@ var Plotter = function() {
 
                   }
               }
-                xhr.open('GET', 'https://s3.amazonaws.com/ppsqftheatmap/dates.txt', true); // Amazon hosted version
+                xhr.open('GET', '../data/dates.html', true); // Amazon hosted version
             // xhr.open('GET', 'http://localhost:9292/dates', true); // apicall version 
             xhr.send(null); 
         }());
@@ -81,7 +81,7 @@ var Plotter = function() {
 
                   }
               }
-            xhr.open('GET', 'https://s3.amazonaws.com/ppsqftheatmap/heatmap.txt', true);  // Amazon hosted version
+            xhr.open('GET', '../data/heatmap.html', true);  // Amazon hosted version
             // xhr.open('GET', 'http://localhost:9292/properties/'); // api version of the data
             xhr.send(null); 
           };    
