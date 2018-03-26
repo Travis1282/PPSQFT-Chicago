@@ -37,26 +37,14 @@ function dragElement(elmnt) {
     e = e || window.event;
     let newMouseX = e.clientX,
         handleLeft = e.clientX,
-        rightLimit = window.innerWidth;
+        rightLimit = window.innerWidth - 20;
     
     if (handleLeft < 0) handleLeft = 0;
     if (handleLeft > rightLimit) handleLeft = rightLimit;
 
-    handle.style.left = (segmentWidth * incriment) - 21 +'px';
+    handle.style.left = segmentWidth * incriment +'px';
     incriment = Math.round(handleLeft/segmentWidth)
-    console.log(handleLeft)
 
-    // pos1 = pos3 - e.clientX;
-    // pos3 = e.clientX;
-    // // elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    // dateLocation = handle.getBoundingClientRect().right
-    // if (incriment < dates.length){
-    //   incriment = Math.round(pos3/segmentWidth)
-    //   handle.style.left = segmentWidth * incriment+'px';
-    // }
-
-    //         console.log(incriment, dates.length)
-    // incriment = Math.round(pos3/segmentWidth)
     nowOnDate = dates[incriment]
     datePrint.innerText = nowOnDate.slice(0,-9) 
 
@@ -84,7 +72,9 @@ function draw() {
         handle.style.left = segmentWidth * incriment+'px';
         nowOnDate = dates[incriment]
         datePrint.innerText = nowOnDate.slice(0,-9) 
-
+        }else{
+                  playPause.checked = true;
+                  console.log("end")
         }
       myLayer.thisMonth(nowOnDate);
 
@@ -116,18 +106,25 @@ playPause.checked = true;
 playPause.addEventListener( 'change', function() {
     if(this.checked) {  
         animate = false;
-    } else {
-      animate = true  
-      draw()
-
+    } else if (dateLocation >= window.innerWidth-5){
+        incriment = 0;
+        handle.style.left = (segmentWidth * incriment);
+        nowOnDate = dates[incriment];
+        datePrint.innerText = nowOnDate.slice(0,-9);
+        animate = false;
+      }else{
+        animate = true;
+        draw();
     }
 });
 
 //////////////// CREATE DRAGGABLE BOX ////////////////
 
 let handle = document.getElementById('handle');   
-dragElement(document.getElementById(("handle")));
+dragElement(document.getElementById("handle"));
 segmentWidth = window.innerWidth/dates.length;
 
     
+handleHolder = document.getElementById('handleHolder');   
+handleHolder.style.bottom = 0;
 

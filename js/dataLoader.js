@@ -1,5 +1,5 @@
 ////////////////// GLOBAL //////////////////
- // let  dates = [],
+ // let  dates = [], currently loading this var straight from a js file
 let   segmentWidth = '', 
       dateLocation = '',
       incriment = 0, 
@@ -122,6 +122,9 @@ Plotter.prototype = new L.CanvasLayer(); // -- setup prototype
 
 const myLayer = new Plotter();
 myLayer.addTo(leafletMap);
+
+////////////////// PAUSE ANIMATION ON MAP MOVE //////////////////
+
 
 leafletMap.on('movestart', function (e) { 
   if (animate == true){
