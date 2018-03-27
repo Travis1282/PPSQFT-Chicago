@@ -10,4 +10,4 @@ I used the Leaflet.js library with an integrated canvas layer via a gLayers.Leaf
 Eventually I want to be able to predict value trends and visualize them on the map. This project was the first step in that direction. The majority of that work will be on the back end in data analysis and machine learning and then plot points on a grid as opposed to their lat long coordinates. 
 
 ## Future goals
-Getting the start stop toggle working and having the points fade in and out will bring this iteration to the finish line. 
+Currently the site is not mobile friendly and while adjusting the element sizes for smaller viewing windows is simple, the larger challenge is getting the dragg working on mobile. 
