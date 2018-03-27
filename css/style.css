@@ -54,20 +54,30 @@ html, body {
     width: fit-content;
 }
 
-
-#circle{
-    width: 10em;
-    height: 10em;
-    margin: 10em;
+/*legend css*/
+.circle{
+    left: 20px;
+    width: 20px;
+    height: 20px;
     position: relative;
-    z-index: 10px;
-    border-radius: 20px; 
-    border-color: white;
-    border-width: 1em;
+    z-index: 3;
+    border-radius: 100px;
+    border: 3px solid white;
+\
 }
 
 
-
+.label {
+    font-family: 'Fjalla One', sans-serif;
+    left: 60px;
+    font-size: 15px;
+    color: white;
+    z-index: 3;
+    position: relative;
+    text-transform: uppercase;
+    transform: translateY(-20px);
+    width: fit-content;
+}
 
 
 
