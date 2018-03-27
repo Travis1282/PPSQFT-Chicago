@@ -75,7 +75,8 @@ var Plotter = function() {
                       // allData = JSON.parse(xhr.responseText)
                       // data.push(JSON.parse(xhr.responseText))
                       that.thisMonth(allData)
-                      window.draw();
+                      // window.draw();
+                      animate = true
                       playPause.checked = false;
                       segmentWidth = window.innerWidth/dates.length;
 
@@ -124,7 +125,6 @@ const myLayer = new Plotter();
 myLayer.addTo(leafletMap);
 
 ////////////////// PAUSE ANIMATION ON MAP MOVE //////////////////
-
 
 leafletMap.on('movestart', function (e) { 
   if (animate == true){

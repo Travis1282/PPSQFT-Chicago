@@ -1,4 +1,3 @@
-
 //////////////// MAINTAIN THE BROWSER WIDTH AND HEIGHT VARIBLES ON RESIZE ////////////////
 
 window.onresize = (event) => {
@@ -42,6 +41,7 @@ function dragElement(elmnt) {
     if (handleLeft > rightLimit) handleLeft = rightLimit;
 
     handle.style.left = segmentWidth * incriment +'px';
+    progress.style.width = handle.style.left
     incriment = Math.round(handleLeft/segmentWidth)
 
     nowOnDate = dates[incriment]
@@ -59,72 +59,15 @@ function dragElement(elmnt) {
   }
 }
 
-//////////////// ANIMATE + DRAW ////////////////
-
-function draw() {
-    speed = 50; 
-    setTimeout(function() {
-      if (animate == true) requestAnimationFrame(draw);
-
-        incriment++
-        dateLocation = handle.getBoundingClientRect().right
-
-      if (dateLocation <= window.innerWidth){
-          handle.style.left = segmentWidth * incriment+'px';
-          progress.style.width = handle.style.left
-          nowOnDate = dates[incriment]
-          datePrint.innerText = nowOnDate.slice(0,-9) 
-        }else{
-          playPause.checked = true;
-          animate = false; 
-        }
-      myLayer.thisMonth(nowOnDate);
-
-  }, speed )
-}
- 
-
-
-//////////////// DATE TRACKER ////////////////
-
-
-let datePrint = document.createElement('div');   
-document.body.appendChild(datePrint);
-datePrint.id = 'datePrint'
-datePrint.innerText = "Loading...";
-
 
 //////////////// PROGRESS BAR & DRAGGABLE BOX ////////////////
 
 let progress = document.getElementById('progress'); 
 handleHolder.style.width = 0;
 
-
 let handle = document.getElementById('handle');   
 dragElement(document.getElementById("handle"));
 segmentWidth = window.innerWidth/dates.length;
 
-// handleHolder = document.getElementById('handleHolder');   
-
-
-//////////////// PLAY/PAUSE BUTTON ////////////////
-
-let playPause = document.querySelector("input[name=check]");
-playPause.checked = true;
-playPause.addEventListener( 'change', function() {
-    if(this.checked) {  
-        animate = false;
-    } else if (dateLocation >= window.innerWidth-5){
-        incriment = 0;
-        handle.style.left = (segmentWidth * incriment);
-        nowOnDate = dates[incriment];
-        datePrint.innerText = nowOnDate.slice(0,-9);
-        animate = true;
-        draw();
-      }else{
-        animate = true;
-        draw();
-    }
-});
 
 

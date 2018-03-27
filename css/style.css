@@ -45,7 +45,6 @@ html, body {
 #datePrint {
     font-family: 'Fjalla One', sans-serif;
     padding: 30px;
-    /* transform: translate(40px, -30px); */
     font-size: 50px;
     color: white;
     z-index: 2;
@@ -56,16 +55,16 @@ html, body {
 }
 
 
-/*#fullWidthBar{
-    width: 100vw;
-    height:20px;
-    background-color: rgba(128, 128, 128, 0.5);
-    z-index:2;
-    bottom:0px;
+#circle{
+    width: 10em;
+    height: 10em;
+    margin: 10em;
     position: relative;
-
-
-}*/
+    z-index: 10px;
+    border-radius: 20px; 
+    border-color: white;
+    border-width: 1em;
+}
 
 
 
