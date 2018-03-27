@@ -44,20 +44,21 @@ var Plotter = function() {
         const that = this;  
         this.data = []
         // console.log('getting this far')
-            // let o = 0;
-            // middle = false
+            let o = 0;
+                o = 0;
+            middle = false;
               onThisDate = allData[incriment]
                // console.log(onThisDate)
 
-            for (let i = incriment - 15; i < incriment + 15; i++) {
-                  // if (o > 0.9){middle = true}
-                  // if (o < 1 && middle === false){ o = o + 0.059 } else { o = o - 0.059}
+            for (let i = incriment - 20; i < incriment + 20; i++) {
+                  if (o > 0.7){middle = true}
+                  if (o < 0.7 && middle === false){ o = o + 0.035 } else { o = o - 0.035}
                const filtered = allData.filter(property => property.datesold == dates[i]);
                 if (filtered.length != 0){
                   for (let j = 0; j < filtered.length; j++){
-                    // filtered[j].datesold = Math.round( o * 100 ) / 100;
+                    // filtered[j].datesold = o;
+                    filtered[j].opacity = o;
                     this.data.push(filtered[j])
-                    // console.log(filtered[j].datesold)
                   }
                 }
             }
@@ -91,19 +92,19 @@ var Plotter = function() {
           };    
 
         this.onDrawLayer = function (viewInfo){
-          scale = (-viewInfo.zoom * -7) -70
+          scale = (-viewInfo.zoom * -10) -100
          let ctx = viewInfo.canvas.getContext('2d');
           ctx.clearRect(0, 0, viewInfo.canvas.width, viewInfo.canvas.height); 
           const that = this
             for (let i = 0; i < this.data.length; i++) {
-                  let d = [parseFloat(this.data[i].lat), parseFloat(this.data[i].long), parseFloat(this.data[i].ppsqft), parseFloat(this.data[i].datesold)]
+                  let d = [parseFloat(this.data[i].lat), parseFloat(this.data[i].long), parseFloat(this.data[i].ppsqft), parseFloat(this.data[i].opacity)]
                   if (viewInfo.bounds.contains([d[0], d[1]])) {
                       dot = viewInfo.layer._map.latLngToContainerPoint([d[0], d[1]], false);
                       // ctx.filter = 'blur(2px)'
                       // console.log(d[3])
                       ctx.beginPath();
-                      ctx.arc(dot.x, dot.y, scale, 0, Math.PI * 2);
-                      ctx.fillStyle = 'hsla('+(d[2]*.4)+', 100%, 50%, 0.5 )';
+                      ctx.arc(dot.x, dot.y, (d[3]*(scale+10)), 0, Math.PI * 2);
+                      ctx.fillStyle = 'hsla('+(d[2]*.4)+', 100%, 50%,'+(d[3])+')';
                       ctx.fill();
                       ctx.closePath();
 

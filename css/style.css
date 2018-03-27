@@ -63,7 +63,7 @@ html, body {
     z-index: 3;
     border-radius: 100px;
     border: 3px solid white;
-\
+    transform: translateY(-60px);
 }
 
 
@@ -75,7 +75,7 @@ html, body {
     z-index: 3;
     position: relative;
     text-transform: uppercase;
-    transform: translateY(-20px);
+    transform: translateY(-80px);
     width: fit-content;
 }
 
