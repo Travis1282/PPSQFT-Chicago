@@ -132,7 +132,9 @@ leafletMap.on('movestart', function (e) {
     animate = false; 
     leafletMap.on('moveend', function (e) { 
       playPause.checked = false;
-      animate = true, draw();});
+      animate = true;
+      draw();
+    });
   }
 });
 

@@ -28,17 +28,18 @@ html, body {
     cursor: move;
     bottom: 0;
 }
-#handleHolder{
-    width: 100vw;
+#handleHolder {
+    width: 100vw !important;
     height: 20px;
-    background-color: rgba(128, 128, 128, 0.5);
+    background-color: rgba(255, 254, 254, 0.4);
     z-index: 2;
     top: calc(100vh - 20px);
     position: relative;
-
 }
-#progress {
 
+#progress {
+    background-color: rgba(70, 70, 70, 0.7);
+    height: 20px;
 }
 
 #datePrint {

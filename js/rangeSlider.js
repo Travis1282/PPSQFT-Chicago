@@ -8,7 +8,6 @@ window.onresize = (event) => {
 
 
 
-
 //////////////// DRAG HANDLE ////////////////
 
 function dragElement(elmnt) {
@@ -66,15 +65,18 @@ function draw() {
     speed = 50; 
     setTimeout(function() {
       if (animate == true) requestAnimationFrame(draw);
+
         incriment++
         dateLocation = handle.getBoundingClientRect().right
+
       if (dateLocation <= window.innerWidth){
-        handle.style.left = segmentWidth * incriment+'px';
-        nowOnDate = dates[incriment]
-        datePrint.innerText = nowOnDate.slice(0,-9) 
+          handle.style.left = segmentWidth * incriment+'px';
+          progress.style.width = handle.style.left
+          nowOnDate = dates[incriment]
+          datePrint.innerText = nowOnDate.slice(0,-9) 
         }else{
-                  playPause.checked = true;
-                  console.log("end")
+          playPause.checked = true;
+          animate = false; 
         }
       myLayer.thisMonth(nowOnDate);
 
@@ -92,11 +94,17 @@ datePrint.id = 'datePrint'
 datePrint.innerText = "Loading...";
 
 
-//////////////// PROGRESS BAR ////////////////
+//////////////// PROGRESS BAR & DRAGGABLE BOX ////////////////
 
-let fullWidthBar = document.createElement('div');   
-document.body.appendChild(fullWidthBar);
-fullWidthBar.id = 'fullWidthBar';
+let progress = document.getElementById('progress'); 
+handleHolder.style.width = 0;
+
+
+let handle = document.getElementById('handle');   
+dragElement(document.getElementById("handle"));
+segmentWidth = window.innerWidth/dates.length;
+
+// handleHolder = document.getElementById('handleHolder');   
 
 
 //////////////// PLAY/PAUSE BUTTON ////////////////
@@ -111,20 +119,12 @@ playPause.addEventListener( 'change', function() {
         handle.style.left = (segmentWidth * incriment);
         nowOnDate = dates[incriment];
         datePrint.innerText = nowOnDate.slice(0,-9);
-        animate = false;
+        animate = true;
+        draw();
       }else{
         animate = true;
         draw();
     }
 });
 
-//////////////// CREATE DRAGGABLE BOX ////////////////
-
-let handle = document.getElementById('handle');   
-dragElement(document.getElementById("handle"));
-segmentWidth = window.innerWidth/dates.length;
-
-    
-handleHolder = document.getElementById('handleHolder');   
-handleHolder.style.bottom = 0;
 
