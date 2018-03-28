@@ -55,7 +55,6 @@ function dragElement(elmnt) {
     document.onmousemove = null;
     // animate = true;
 
-    draw();
   }
 }
 

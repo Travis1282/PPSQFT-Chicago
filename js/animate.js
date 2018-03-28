@@ -1,9 +1,9 @@
 //////////////// ANIMATE + DRAW ////////////////
 
 function draw() {
-    speed = 50; 
     setTimeout(function() {
-      if (animate == true) requestAnimationFrame(draw);
+      requestAnimationFrame(draw);
+      if (animate == true) {
 
         incriment++
         dateLocation = handle.getBoundingClientRect().right
@@ -18,8 +18,8 @@ function draw() {
           animate = false; 
         }
       myLayer.thisMonth(nowOnDate);
-
-  }, speed )
+    }
+  }, 50 )
 }
  
 draw()

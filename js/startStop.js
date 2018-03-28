@@ -11,10 +11,8 @@ playPause.addEventListener( 'change', function() {
         nowOnDate = dates[incriment];
         datePrint.innerText = nowOnDate.slice(0,-9);
         animate = true;
-        draw();
       }else{
         animate = true;
-        draw();
     }
 });
 

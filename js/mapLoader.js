@@ -76,7 +76,6 @@ var Plotter = function() {
                       // allData = JSON.parse(xhr.responseText)
                       // data.push(JSON.parse(xhr.responseText))
                       that.thisMonth(allData)
-                      // window.draw();
                       animate = true
                       playPause.checked = false;
                       segmentWidth = window.innerWidth/dates.length;
@@ -134,7 +133,6 @@ leafletMap.on('movestart', function (e) {
     leafletMap.on('moveend', function (e) { 
       playPause.checked = false;
       animate = true;
-      draw();
     });
   }
 });
